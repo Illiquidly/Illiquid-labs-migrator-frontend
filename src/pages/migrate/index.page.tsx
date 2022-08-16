@@ -449,7 +449,14 @@ export default function Migrate({
 													disabled={isSubmitting || !isValid}
 												>
 													Migrate selected NFTs
-													<div style={{ display: 'flex', marginBottom: -2, height: 30 }}>
+													<div
+														style={{
+															display: 'flex',
+															marginBottom: -2,
+															height: 30,
+															width: 30,
+														}}
+													>
 														<Illiquid />
 													</div>
 												</Button>

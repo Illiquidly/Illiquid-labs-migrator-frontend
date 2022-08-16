@@ -56,16 +56,16 @@ export default function useAllMigrations() {
 		async (cw721: RegisteredTokenInfo & UpgradableCollection) => {
 			const contractInfo = await promiseRetry(
 				{ minTimeout: 100, retries: 30, factor: 1.5, randomize: true },
-				async () => cw721Migrator.memoizedGetContractInfo(cw721.contract1)
+				async retry =>
+					cw721Migrator.memoizedGetContractInfo(cw721.contract1).catch(retry)
 			)
 
 			const nftInfo = await promiseRetry(
 				{ minTimeout: 100, retries: 30, factor: 1.5, randomize: true },
-				async () =>
-					cw721Migrator.getNFTInfo(
-						cw721.contract1 as string,
-						cw721.tokenId as string
-					)
+				async retry =>
+					cw721Migrator
+						.getNFTInfo(cw721.contract1 as string, cw721.tokenId as string)
+						.catch(retry)
 			)
 
 			const imageUrl = fromIPFSImageURLtoImageURL(nftInfo?.extension?.image)
@@ -78,8 +78,10 @@ export default function useAllMigrations() {
 			const [, tokenOwnerResponse] = await asyncAction(
 				promiseRetry(
 					{ minTimeout: 100, retries: 30, factor: 1.5, randomize: true },
-					async () =>
-						cw721Contract.getOwnerOfToken(cw721.contract2, gpTokenId || cw721.tokenId)
+					async retry =>
+						cw721Contract
+							.getOwnerOfToken(cw721.contract2, gpTokenId || cw721.tokenId)
+							.catch(retry)
 				)
 			)
 

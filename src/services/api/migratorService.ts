@@ -18,7 +18,8 @@ export class MigratorService {
 	static async getClaimRequest(myAddress: string, migration: Migration) {
 		const apiResponse = await promiseRetry(
 			{ minTimeout: 200, retries: 5, factor: 2, randomize: true },
-			async () => migratorClient.get(getMigratorURL(myAddress, migration))
+			async retry =>
+				migratorClient.get(getMigratorURL(myAddress, migration)).catch(retry)
 		)
 		return keysToCamel(apiResponse.data)
 	}
