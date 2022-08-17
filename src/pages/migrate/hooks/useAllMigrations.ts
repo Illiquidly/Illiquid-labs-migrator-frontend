@@ -2,11 +2,9 @@
 import React from 'react'
 import cw721Migrator, {
 	LOOTOPIAN_ITEM_ESCROW_CONTRACT,
-	// LOOTOPIAN_ITEM_ESCROW_CONTRACT,
 	RegisteredTokenInfo,
 } from 'services/blockchain/contracts/cw721Migrator'
-// import { asyncAction } from 'utils/js/asyncAction'
-// import cw721Contract from 'services/blockchain/contracts/cw721'
+
 import { useWallet } from '@illiquid-labs/use-wallet'
 import { MIGRATOR_TARGET_CHAIN_ID } from 'constants/migratorConfig'
 import { useQuery } from '@tanstack/react-query'
@@ -14,7 +12,6 @@ import { MigratableCollectionsService } from 'services/api/migratableCollections
 import { fromIPFSImageURLtoImageURL } from 'utils/blockchain/ipfs'
 import pMap from 'p-map'
 import promiseRetry from 'promise-retry'
-// import { TokenOwnerService } from 'services/api/tokenOwnerService'
 import { NFTInfoService } from 'services/api/nftInfoService'
 
 export type UpgradableCollection = {
@@ -44,7 +41,7 @@ export type MigrationCollectionListResponse = {
 }
 
 export default function useAllMigrations() {
-	const [loading, setLoading] = React.useState(true)
+	const [loading, setLoading] = React.useState(false)
 	const wallet = useWallet()
 
 	const [allMigrations, setAllMigrations] = React.useState<Migration[]>([])
@@ -187,7 +184,7 @@ export default function useAllMigrations() {
 			return
 		}
 
-		if (!migratableCollectionsFetched || !allNFTInfoFetched) {
+		if (!migratableCollectionsFetched || !allNFTInfoFetched || loading) {
 			return
 		}
 

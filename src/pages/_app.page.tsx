@@ -31,7 +31,13 @@ const Header = dynamic(() => import('../components/ui/Header/Header'), {
 	ssr: false,
 })
 
-const queryClient = new QueryClient()
+const queryClient = new QueryClient({
+	defaultOptions: {
+		queries: {
+			refetchOnWindowFocus: false,
+		},
+	},
+})
 
 const Main = ({
 	Component,
