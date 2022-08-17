@@ -5,8 +5,8 @@ import cw721Migrator, {
 	// LOOTOPIAN_ITEM_ESCROW_CONTRACT,
 	RegisteredTokenInfo,
 } from 'services/blockchain/contracts/cw721Migrator'
-import { asyncAction } from 'utils/js/asyncAction'
-import cw721Contract from 'services/blockchain/contracts/cw721'
+// import { asyncAction } from 'utils/js/asyncAction'
+// import cw721Contract from 'services/blockchain/contracts/cw721'
 import { useWallet } from '@illiquid-labs/use-wallet'
 import { MIGRATOR_TARGET_CHAIN_ID } from 'constants/migratorConfig'
 import { useQuery } from '@tanstack/react-query'
@@ -14,6 +14,8 @@ import { MigratableCollectionsService } from 'services/api/migratableCollections
 import { fromIPFSImageURLtoImageURL } from 'utils/blockchain/ipfs'
 import pMap from 'p-map'
 import promiseRetry from 'promise-retry'
+// import { TokenOwnerService } from 'services/api/tokenOwnerService'
+import { NFTInfoService } from 'services/api/nftInfoService'
 
 export type UpgradableCollection = {
 	name: string
@@ -47,42 +49,48 @@ export default function useAllMigrations() {
 
 	const [allMigrations, setAllMigrations] = React.useState<Migration[]>([])
 
-	const { data: migratableCollections } = useQuery(
-		['migratableCollections'],
-		async () => MigratableCollectionsService.getMigratableCollections()
+	const {
+		data: migratableCollections,
+		isFetched: migratableCollectionsFetched,
+	} = useQuery(['migratableCollections'], async () =>
+		MigratableCollectionsService.getMigratableCollections()
+	)
+
+	const { data: allNFTInfo, isFetched: allNFTInfoFetched } = useQuery(
+		['allNFTInfo'],
+		async () => NFTInfoService.getAllNFTInfo('classic')
 	)
 
 	const parseCw721Response = React.useCallback(
-		async (cw721: RegisteredTokenInfo & UpgradableCollection) => {
+		async (
+			cw721: RegisteredTokenInfo & UpgradableCollection,
+			allMigratedTokens: string[]
+		) => {
 			const contractInfo = await promiseRetry(
 				{ minTimeout: 100, retries: 30, factor: 1.5, randomize: true },
 				async retry =>
 					cw721Migrator.memoizedGetContractInfo(cw721.contract1).catch(retry)
 			)
 
-			const nftInfo = await promiseRetry(
-				{ minTimeout: 100, retries: 30, factor: 1.5, randomize: true },
-				async retry =>
-					cw721Migrator
-						.getNFTInfo(cw721.contract1 as string, cw721.tokenId as string)
-						.catch(retry)
-			)
+			let nftInfo = allNFTInfo[cw721.contract1]?.[cw721.tokenId]
+
+			if (!nftInfo) {
+				nftInfo = await promiseRetry(
+					{ minTimeout: 50, retries: 50, factor: 2, randomize: true },
+					async retry =>
+						NFTInfoService.getNFTInfo(
+							'classic',
+							cw721.contract1 as string,
+							cw721.tokenId as string
+						).catch(retry)
+				)
+			}
 
 			const imageUrl = fromIPFSImageURLtoImageURL(nftInfo?.extension?.image)
 
 			// Try from parse tokenId from name, this is case for Galactic Punks where token id does not mach with name.
 			const [, gpTokenId] = (nftInfo.extension?.name ?? '').split(
 				'Galactic Punk #'
-			)
-
-			const [, tokenOwnerResponse] = await asyncAction(
-				promiseRetry(
-					{ minTimeout: 100, retries: 30, factor: 1.5, randomize: true },
-					async retry =>
-						cw721Contract
-							.getOwnerOfToken(cw721.contract2, gpTokenId || cw721.tokenId)
-							.catch(retry)
-				)
 			)
 
 			return {
@@ -92,21 +100,26 @@ export default function useAllMigrations() {
 				tokenId: cw721.tokenId,
 				contractAddress: cw721.contract1,
 				imageUrl,
-				migrated: !!tokenOwnerResponse,
+				migrated: allMigratedTokens.includes(gpTokenId || cw721.tokenId),
 				feeInfo: {
 					projectPrice: '0',
 					feePrice: '0',
 				},
 			}
 		},
-		[]
+		[allNFTInfo]
 	)
 
 	const fetchMigrations = async () => {
 		setLoading(true)
+
 		await pMap(
 			Object.values(migratableCollections || []),
 			async ({ escrowContract, ...rest }) => {
+				const allMigratedTokens = await cw721Migrator.fetchAllTokensUntilEnd(
+					rest.contract2
+				)
+
 				const registeredTokens =
 					cw721Migrator.fetchRegisteredMigrationsUntilEnd(escrowContract)
 
@@ -122,7 +135,7 @@ export default function useAllMigrations() {
 					// eslint-disable-next-line no-await-in-loop
 					const cw721sExtended = await pMap(
 						cw721s,
-						async cw721 => parseCw721Response(cw721),
+						async cw721 => parseCw721Response(cw721, allMigratedTokens),
 						{
 							concurrency: 30,
 						}
@@ -151,7 +164,7 @@ export default function useAllMigrations() {
 						// eslint-disable-next-line no-await-in-loop
 						const cw721sExtended = await pMap(
 							cw721s,
-							async cw721 => parseCw721Response(cw721),
+							async cw721 => parseCw721Response(cw721, allMigratedTokens),
 							{
 								concurrency: 30,
 							}
@@ -164,7 +177,7 @@ export default function useAllMigrations() {
 					}
 				}
 			},
-			{ concurrency: 1 }
+			{ concurrency: 5 }
 		)
 		setLoading(false)
 	}
@@ -173,8 +186,18 @@ export default function useAllMigrations() {
 		if (wallet.network.chainID !== MIGRATOR_TARGET_CHAIN_ID) {
 			return
 		}
+
+		if (!migratableCollectionsFetched || !allNFTInfoFetched) {
+			return
+		}
+
 		fetchMigrations()
-	}, [migratableCollections])
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [
+		migratableCollectionsFetched,
+		// allMigratedTokenOwnersFetched,
+		allNFTInfoFetched,
+	])
 
 	return {
 		fetchMigrations,

@@ -262,6 +262,40 @@ const fetchUserTokensUntilEnd = async (
 	return response.flat()
 }
 
+async function fetchAllTokens(
+	nftContractAddress: string,
+	startAfter: string,
+	limit = 30
+) {
+	return (
+		await terraUtils.sendIndependentQuery(
+			MIGRATOR_TARGET_CHAIN_ID,
+			nftContractAddress,
+			{
+				all_tokens: {
+					...(limit ? { limit } : {}),
+					...(startAfter ? { start_after: startAfter } : {}),
+				},
+			}
+		)
+	)?.tokens
+}
+
+async function fetchAllTokensUntilEnd(nftContractAddress: string) {
+	const result: string[] = []
+	let startAfter
+	do {
+		// eslint-disable-next-line no-await-in-loop
+		const response = await fetchAllTokens(nftContractAddress, startAfter)
+
+		result.push(response)
+
+		startAfter = last(response)
+	} while (startAfter)
+
+	return result.flat()
+}
+
 async function* fetchRegisteredMigrationsUntilEnd(
 	escrowContract: string,
 	startAfter?: string,
@@ -383,6 +417,7 @@ export default {
 	getNFTInfo,
 	getContractInfo,
 	memoizedGetContractInfo,
+	fetchAllTokensUntilEnd,
 
 	// Terra 2.0 Contract
 	claimManyNFTs,
