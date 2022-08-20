@@ -21,7 +21,7 @@ import useMyMigrations, { Migration } from '../hooks/useMyMigrations'
 
 const renderToastContent = ({ url }: { url?: string }) => (
 	<div>
-		<Box marginRight={4}>Your NFTs were successfully locked.</Box>
+		<Box marginRight={4}>Your NFTs were successfully claimed.</Box>
 		<ToastLink href={url} target='_blank' rel='noreferrer'>
 			Open in Terra Finder
 		</ToastLink>
