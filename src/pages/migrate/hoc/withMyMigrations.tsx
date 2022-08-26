@@ -87,7 +87,9 @@ export function withMyMigrations(
 			setLoading({ ...loading, send: true })
 
 			const apiClaimRequest = await pMap(
-				pendingMigrations,
+				query?.migration_count
+					? pendingMigrations.slice(0, parseInt(query.migration_count as string, 10))
+					: pendingMigrations,
 				async (migration: Migration) => ({
 					contractAddress: (migratableCollections ?? {})[migration?.contractAddress]
 						.minterContract,

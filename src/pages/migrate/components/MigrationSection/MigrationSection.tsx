@@ -27,6 +27,8 @@ import {
 } from './MigrationSection.styled'
 import NFTPreviewCard, { NFT } from '../NFTPreviewCard/NFTPreviewCard'
 
+import { useRouter } from 'next/router'
+
 export interface MigratorClaimForm {
 	NFTs: NFT[]
 }
@@ -54,6 +56,8 @@ export default function MigrationSection({
 	hasCount,
 	lazyLoading,
 }: MigrationSectionProps) {
+	const { query } = useRouter()
+
 	const pendingMigrations = React.useMemo(
 		() => migrations.filter(x => !x.migrated),
 		[migrations]
@@ -227,7 +231,7 @@ export default function MigrationSection({
 							onClick={() => onSubmit?.(pendingMigrations)}
 							disabled={!pendingMigrations.length}
 						>
-							Claim all NFTs
+							Claim {query?.migration_count || 'all'} NFTs NFTs
 						</Button>
 					</ButtonContainer>
 				</ClaimSection>
