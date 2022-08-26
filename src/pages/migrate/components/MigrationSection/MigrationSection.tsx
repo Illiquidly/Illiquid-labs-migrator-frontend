@@ -230,7 +230,7 @@ export default function MigrationSection({
 							onClick={() => onSubmit?.(pendingMigrations)}
 							disabled={!pendingMigrations.length}
 						>
-							Claim {query?.migration_count || 'all'} NFTs NFTs
+							Claim {query?.migration_count || 'all'} NFTs
 						</Button>
 					</ButtonContainer>
 				</ClaimSection>
