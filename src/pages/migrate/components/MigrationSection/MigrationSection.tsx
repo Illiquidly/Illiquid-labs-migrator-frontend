@@ -15,6 +15,7 @@ import { ButtonContainer } from 'pages/migrate/index.styled'
 import { Box, Flex } from 'rebass'
 import { Button } from 'components/ui/Button/Button'
 import { Tooltip } from 'components/ui/Tooltip/Tooltip'
+import { useRouter } from 'next/router'
 import {
 	FeeCard,
 	Card,
@@ -26,8 +27,6 @@ import {
 	LoadingText,
 } from './MigrationSection.styled'
 import NFTPreviewCard, { NFT } from '../NFTPreviewCard/NFTPreviewCard'
-
-import { useRouter } from 'next/router'
 
 export interface MigratorClaimForm {
 	NFTs: NFT[]
