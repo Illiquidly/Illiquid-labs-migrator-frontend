@@ -238,7 +238,7 @@ const memoizedGetContractInfo = pMemoize(getContractInfo)
 const fetchUserTokensUntilEnd = async (
 	escrowContract: string,
 	userAddress: string,
-	limit = 30
+	limit = 100
 ) => {
 	let startAfter: string | undefined
 	const response: RegisteredTokenInfo[][] = []
@@ -265,7 +265,7 @@ const fetchUserTokensUntilEnd = async (
 async function fetchAllTokens(
 	nftContractAddress: string,
 	startAfter: string,
-	limit = 30
+	limit = 100
 ) {
 	return (
 		await terraUtils.sendIndependentQuery(
@@ -299,7 +299,7 @@ async function fetchAllTokensUntilEnd(nftContractAddress: string) {
 async function* fetchRegisteredMigrationsUntilEnd(
 	escrowContract: string,
 	startAfter?: string,
-	limit = 30
+	limit = 200
 ): AsyncGenerator<RegisteredTokenInfo[]> {
 	const result: RegisteredTokenInfo[] =
 		(await getRegisteredTokens(escrowContract, limit, startAfter))?.tokens || []
