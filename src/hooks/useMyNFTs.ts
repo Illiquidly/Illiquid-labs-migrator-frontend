@@ -91,7 +91,13 @@ function useMyNFTs() {
 
 			const [, fullNFTs] = await asyncAction(
 				promiseRetry(
-					{ minTimeout: 125, maxTimeout: 5000, retries: 100, factor: 2, randomize: true },
+					{
+						minTimeout: 125,
+						maxTimeout: 5000,
+						retries: 100,
+						factor: 2,
+						randomize: true,
+					},
 					async retry => {
 						const [error, response] = await asyncAction(
 							WalletNFTsService.requestNFTs(getNetworkName(), myAddress)
@@ -105,7 +111,7 @@ function useMyNFTs() {
 
 						// If we get a partial result, we need to call update on the API
 						if (response?.data?.state === WalletNFTState.Partial) {
-							const [, partialNFTs] = await asyncAction(
+							await asyncAction(
 								WalletNFTsService.requestUpdateNFTs(getNetworkName(), myAddress)
 							)
 							return retry("Try again, It's not ready yet!")
