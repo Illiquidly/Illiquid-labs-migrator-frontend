@@ -23,6 +23,8 @@ export type UpgradableCollection = {
 
 export type Migration = {
 	contract1: string
+	contract2: string
+	depositor: string
 	collectionName: string
 	name: string
 	tokenId: string
@@ -199,7 +201,7 @@ export default function useAllMigrations() {
 	return {
 		fetchMigrations,
 		allMigrations,
-		loading,
+		loading: loading || !migratableCollectionsFetched || !allNFTInfoFetched,
 		parseCw721Response,
 	}
 }

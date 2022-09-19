@@ -1,6 +1,6 @@
 import React from 'react'
 import { StyledLoadingOverlay } from 'components/ui/LoadingOverlay/LoadingOverlay'
-
+import { CSVLink } from 'react-csv'
 import { Collection } from 'hooks/useMyNFTs'
 import { Migration } from 'pages/migrate/hooks/useMyMigrations'
 import { noop, uniqBy } from 'lodash'
@@ -43,6 +43,41 @@ export type MigrationSectionProps = {
 	onSubmit?: (...x: any) => void
 	hasCount?: boolean
 }
+
+const csvHeaders = [
+	{
+		label: 'Terra Classic Collection Address',
+		key: 'sourceCollectionAddress',
+	},
+	{
+		label: 'Terra 2.0 Collection Address',
+		key: 'destinationCollectionAddress',
+	},
+	{
+		label: 'Collection Name',
+		key: 'collectionName',
+	},
+	{
+		label: 'Image URL',
+		key: 'imageUrl',
+	},
+	{
+		label: 'Token Id',
+		key: 'tokenId',
+	},
+	{
+		label: 'Name',
+		key: 'name',
+	},
+	{
+		label: 'User Address',
+		key: 'depositor',
+	},
+	{
+		label: 'Claimed',
+		key: 'claimed',
+	},
+]
 
 export default function MigrationSection({
 	isClaimable,
@@ -255,7 +290,49 @@ export default function MigrationSection({
 								}`}</CardTitle>
 
 								<Box marginRight='12px' />
-
+								<CSVLink
+									style={{
+										appearance: 'none',
+										textAlign: 'center',
+										textDecoration: 'none',
+										paddingLeft: '14px',
+										paddingRight: '14px',
+										fontSize: '12px',
+										color: 'black',
+										border: '1px solid #89a8cf',
+										borderRadius: '4px',
+										background: '#89a8cf',
+										...(lazyLoading ? { opacity: '0.6' } : {}),
+										...(lazyLoading ? { pointerEvents: 'none' } : {}),
+									}}
+									headers={csvHeaders}
+									data={[
+										...filteredCompletedMigrations,
+										...filteredPendingMigrations,
+									].map(
+										({
+											collectionName,
+											contract1,
+											contract2,
+											depositor,
+											imageUrl,
+											migrated,
+											name,
+											tokenId,
+										}) => ({
+											claimed: migrated,
+											depositor,
+											name,
+											collectionName,
+											imageUrl,
+											sourceCollectionAddress: contract1,
+											destinationCollectionAddress: contract2,
+											tokenId,
+										})
+									)}
+								>
+									Export CSV
+								</CSVLink>
 								<LoadingText>
 									{lazyLoading ? 'Loading more in background.' : ''}
 								</LoadingText>

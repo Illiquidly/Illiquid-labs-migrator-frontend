@@ -19,6 +19,8 @@ import { useRouter } from 'next/router'
 
 export type Migration = {
 	contract1: string
+	contract2: string
+	depositor: string
 	collectionName: string
 	name: string
 	tokenId: string
