@@ -66,7 +66,7 @@ function Header() {
 	return (
 		<>
 			<HeaderContainer>
-				<Link href='/'>
+				<Link href='https://www.illiquidlabs.io/'>
 					<LogoContainer>
 						<IlliqudityLogo />
 					</LogoContainer>
@@ -106,6 +106,10 @@ function Header() {
 								<LinkText checked={router.pathname === '/migrate/all-migrations'}>
 									see all migrations
 								</LinkText>
+							</Link>
+
+							<Link href={ROUTES.MAIN_PAGE}>
+								<LinkText>other products</LinkText>
 							</Link>
 						</ContentSection>
 					</>
@@ -182,6 +186,10 @@ function Header() {
 							<LinkText checked={router.pathname === '/migrate/all-migrations'}>
 								see all migrations
 							</LinkText>
+						</Link>
+
+						<Link href={ROUTES.MAIN_PAGE}>
+							<LinkText>other products</LinkText>
 						</Link>
 
 						<QuickLinksSection>

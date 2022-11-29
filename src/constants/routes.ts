@@ -11,6 +11,7 @@ export const ANALYTICS = '/analytics'
 export const NFT_LOANS = '/nft-loans'
 
 // EXTERNAL LINKS
+export const MAIN_PAGE = 'https://www.illiquidlabs.io/'
 export const LANDING_PAGE = ''
 export const STAKING_APP = ''
 export const DOCS = ''

@@ -55,7 +55,7 @@ export const LinkText = withAttrs(
 	`,
 	{
 		fontSize: [4, 4, 4, 4, 5],
-		marginRight: [0, 0, '24px', '48px'],
+		marginRight: [0, 0, '18px', '32px'],
 		marginTop: [4, 4, 4, 0, 0],
 		fontFamily: 'Pixelade',
 	}
