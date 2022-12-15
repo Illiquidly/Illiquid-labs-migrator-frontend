@@ -1,11 +1,11 @@
 import pMap from 'p-map'
 import pMemoize from 'p-memoize'
-import { migratorClient } from 'services/axios'
+import { axios } from 'services/axios'
 import cw721Migrator from 'services/blockchain/contracts/cw721Migrator'
 import { asyncAction } from 'utils/js/asyncAction'
 import { keysToCamel } from 'utils/js/keysToCamel'
 
-const memoizedAxiosGet = pMemoize(migratorClient.get)
+const memoizedAxiosGet = pMemoize(axios.get)
 
 export type MigratableCollection = {
 	name: string

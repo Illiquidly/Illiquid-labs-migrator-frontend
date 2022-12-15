@@ -1,5 +1,5 @@
 import promiseRetry from 'promise-retry'
-import { migratorCacheClient } from 'services/axios'
+import { axios } from 'services/axios'
 import { keysToCamel } from 'utils/js/keysToCamel'
 
 export class TokenOwnerService {
@@ -11,8 +11,8 @@ export class TokenOwnerService {
 		const apiResponse = await promiseRetry(
 			{ minTimeout: 200, retries: 5, factor: 2, randomize: true },
 			async retry =>
-				migratorCacheClient
-					.get(`/${network}/owner/${contractAddress}/tokenId/${tokenId}`)
+				axios
+					.get(`/cache/${network}/owner/${contractAddress}/tokenId/${tokenId}`)
 					.catch(retry)
 		)
 		return keysToCamel(apiResponse.data)
@@ -22,8 +22,8 @@ export class TokenOwnerService {
 		const apiResponse = await promiseRetry(
 			{ minTimeout: 200, retries: 5, factor: 2, randomize: true },
 			async retry =>
-				migratorCacheClient
-					.get(`/${network}/all_tokens/${contractAddress || ''}`)
+				axios
+					.get(`/cache/${network}/all_tokens/${contractAddress || ''}`)
 					.catch(retry)
 		)
 		return keysToCamel(apiResponse.data)

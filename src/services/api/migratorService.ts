@@ -1,6 +1,6 @@
 import { Migration } from 'pages/migrate/hooks/useMyMigrations'
 import promiseRetry from 'promise-retry'
-import { migratorClient } from 'services/axios'
+import { axios } from 'services/axios'
 import { keysToCamel } from 'utils/js/keysToCamel'
 
 const getMigratorURL = (myAddress: string, migration: Migration): string => {
@@ -18,8 +18,7 @@ export class MigratorService {
 	static async getClaimRequest(myAddress: string, migration: Migration) {
 		const apiResponse = await promiseRetry(
 			{ minTimeout: 200, retries: 5, factor: 2, randomize: true },
-			async retry =>
-				migratorClient.get(getMigratorURL(myAddress, migration)).catch(retry)
+			async retry => axios.get(getMigratorURL(myAddress, migration)).catch(retry)
 		)
 		return keysToCamel(apiResponse.data)
 	}

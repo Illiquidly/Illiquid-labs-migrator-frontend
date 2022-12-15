@@ -9,10 +9,14 @@ export enum WalletNFTState {
 
 export class WalletNFTsService {
 	static async requestUpdateNFTs(network: string, address: string) {
-		return axios.get(`nfts/query/${network}/${address}?action=update`)
+		return axios.get(
+			`/nft-content-api-1.0/query/${network}/${address}?action=update`
+		)
 	}
 
 	static async requestNFTs(network: string, address: string) {
-		return axios.get(`nfts/query/${network}/${address}?action=plain_db`)
+		return axios.get(
+			`/nft-content-api-1.0/query/${network}/${address}?action=plain_db`
+		)
 	}
 }
