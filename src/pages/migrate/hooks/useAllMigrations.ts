@@ -5,7 +5,7 @@ import cw721Migrator, {
 	RegisteredTokenInfo,
 } from 'services/blockchain/contracts/cw721Migrator'
 
-import { useWallet } from '@illiquid-labs/use-wallet'
+import { useWallet } from '@terra-money/use-wallet'
 import { MIGRATOR_TARGET_CHAIN_ID } from 'constants/migratorConfig'
 import { useQuery } from '@tanstack/react-query'
 import { MigratableCollectionsService } from 'services/api/migratableCollectionsService'

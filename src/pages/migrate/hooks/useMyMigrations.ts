@@ -7,7 +7,7 @@ import cw721Migrator, {
 
 import { useQuery } from '@tanstack/react-query'
 import { asyncAction } from 'utils/js/asyncAction'
-import { useWallet } from '@illiquid-labs/use-wallet'
+import { useWallet } from '@terra-money/use-wallet'
 import cw721Contract from 'services/blockchain/contracts/cw721'
 import { MIGRATOR_TARGET_CHAIN_ID } from 'constants/migratorConfig'
 import {

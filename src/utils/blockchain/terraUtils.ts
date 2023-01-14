@@ -8,7 +8,7 @@ import {
 	CreateTxOptions,
 	TxInfo,
 } from '@terra-money/terra.js'
-import { Wallet } from '@illiquid-labs/wallet-provider'
+import { Wallet } from '@terra-money/wallet-provider'
 import axios from 'axios'
 import { pick } from 'lodash'
 
@@ -316,8 +316,6 @@ async function postManyTransactions(
 	const tx = await wallet.post({
 		fee,
 		msgs,
-		// Github issue: https://github.com/terra-money/terra.js/pull/295
-		// @ts-ignore
 		isClassic: isClassic(),
 	})
 	const txId = tx.result.txhash

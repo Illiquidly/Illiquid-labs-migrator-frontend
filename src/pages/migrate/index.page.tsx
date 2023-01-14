@@ -1,4 +1,4 @@
-import { useWallet, WalletStatus } from '@illiquid-labs/wallet-provider'
+import { useWallet, WalletStatus } from '@terra-money/wallet-provider'
 import If from 'components/core/IfStatement'
 import { Formik, FormikProps } from 'formik'
 import { useRecoilState } from 'recoil'

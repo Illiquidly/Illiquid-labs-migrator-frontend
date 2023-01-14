@@ -1,4 +1,4 @@
-import { ConnectType, useWallet, WalletStatus } from '@illiquid-labs/use-wallet'
+import { ConnectType, useWallet, WalletStatus } from '@terra-money/use-wallet'
 import React from 'react'
 import * as ROUTES from 'constants/routes'
 import IlliqudityLogo from 'theme/assets/logo_new.svg'

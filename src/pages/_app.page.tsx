@@ -7,8 +7,8 @@ import {
 	StaticWalletProvider,
 	WalletControllerChainOptions,
 	WalletProvider,
-} from '@illiquid-labs/wallet-provider'
-import { useWallet } from '@illiquid-labs/use-wallet'
+} from '@terra-money/wallet-provider'
+import { useWallet } from '@terra-money/use-wallet'
 import { AppProps } from 'next/app'
 import React from 'react'
 import { theme } from 'components/theme'

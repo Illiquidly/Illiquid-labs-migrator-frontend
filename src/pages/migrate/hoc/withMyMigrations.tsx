@@ -1,5 +1,5 @@
 import React from 'react'
-import { useWallet } from '@illiquid-labs/use-wallet'
+import { useWallet } from '@terra-money/use-wallet'
 import { TxReceipt } from 'services/blockchain/blockchain.interface'
 import useTransactionError from 'hooks/useTransactionError'
 import { toast } from 'react-toastify'

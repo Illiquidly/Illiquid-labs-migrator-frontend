@@ -1,4 +1,4 @@
-import { useWallet, WalletStatus } from '@illiquid-labs/use-wallet'
+import { useWallet, WalletStatus } from '@terra-money/use-wallet'
 import If from 'components/core/IfStatement'
 import { MainContainer } from 'components/ui/Container/Container'
 import Modal from 'components/ui/Modal/Modal'

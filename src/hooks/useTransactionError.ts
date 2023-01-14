@@ -4,7 +4,7 @@ import {
 	TxFailed,
 	TxUnspecifiedError,
 	UserDenied,
-} from '@illiquid-labs/use-wallet'
+} from '@terra-money/use-wallet'
 import { AxiosError } from 'axios'
 import { toast } from 'react-toastify'
 import { amountConverter } from 'utils/blockchain/terraUtils'
