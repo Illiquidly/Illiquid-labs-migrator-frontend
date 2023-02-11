@@ -36,7 +36,7 @@ export default function Withdrawer() {
 				<TitleContainer>
 					<Flex sx={{ mt: '24px' }}>
 						<Flex justifyContent='center' alignItems='center' p={0}>
-							<Title>Terra Classic RE Withdraw</Title>
+							<Title>Terra Classic Random Earth Contract </Title>
 						</Flex>
 					</Flex>
 				</TitleContainer>
