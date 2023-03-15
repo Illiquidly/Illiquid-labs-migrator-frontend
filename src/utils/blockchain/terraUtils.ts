@@ -37,13 +37,13 @@ interface TransactionDetails {
 
 const LCD_URLS = {
 	'pisco-1': 'https://pisco-lcd.terra.dev',
-	'columbus-5': 'https://columbus-lcd.terra.dev',
+	'columbus-5': 'https://terra-classic-lcd.publicnode.com',
 	'phoenix-1': 'https://phoenix-lcd.terra.dev',
 }
 
 const FCD_URLS = {
 	'pisco-1': 'https://pisco-fcd.terra.dev',
-	'columbus-5': 'https://columbus-fcd.terra.dev',
+	'columbus-5': 'https://terra-classic-fcd.publicnode.com',
 	'phoenix-1': 'https://phoenix-fcd.terra.dev',
 }
 
