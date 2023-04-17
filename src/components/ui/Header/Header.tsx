@@ -108,6 +108,10 @@ function Header() {
 								</LinkText>
 							</Link>
 
+							<Link href='/withdraw'>
+								<LinkText checked={router.pathname === '/withdraw'}>execute</LinkText>
+							</Link>
+
 							<Link href={ROUTES.MAIN_PAGE}>
 								<LinkText>other products</LinkText>
 							</Link>
