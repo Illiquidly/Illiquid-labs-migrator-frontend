@@ -996,6 +996,16 @@
     "@babel/helper-validator-identifier" "^7.19.1"
     to-fast-properties "^2.0.0"
 
+"@classic-terra/terra.proto@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@classic-terra/terra.proto/-/terra.proto-1.1.0.tgz#e314d89f59b49e79a04db25f66f658e5e5aa1890"
+  integrity sha512-bYhQG5LUaGF0KPRY9hYT/HEcd1QExZPQd6zLV/rQkCe/eDxfwFRLzZHpaaAdfWoAAZjsRWqJbUCqCg7gXBbJpw==
+  dependencies:
+    "@improbable-eng/grpc-web" "^0.14.1"
+    google-protobuf "^3.17.3"
+    long "^4.0.0"
+    protobufjs "~6.11.2"
+
 "@djthoms/pretty-checkbox@^3.1.0":
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/@djthoms/pretty-checkbox/-/pretty-checkbox-3.1.0.tgz#bc1d70533ec662b1f9bb372be17a970373c7f074"
@@ -1860,21 +1870,12 @@
     "@tanstack/query-core" "4.22.0"
     use-sync-external-store "^1.2.0"
 
-"@terra-money/legacy.proto@npm:@terra-money/terra.proto@^0.1.7":
-  version "0.1.7"
-  resolved "https://registry.yarnpkg.com/@terra-money/terra.proto/-/terra.proto-0.1.7.tgz#59c18f30da10d43200bab3ba8feb5b17e43a365f"
-  integrity sha512-NXD7f6pQCulvo6+mv6MAPzhOkUzRjgYVuHZE/apih+lVnPG5hDBU0rRYnOGGofwvKT5/jQoOENnFn/gioWWnyQ==
+"@terra-money/terra.js@^3.1.10":
+  version "3.1.10"
+  resolved "https://registry.yarnpkg.com/@terra-money/terra.js/-/terra.js-3.1.10.tgz#5707c8da2b8735d1b2a43fee0b1bf0da51c5a8f8"
+  integrity sha512-MqR16LjTUyVD4HnEavP1iBW0c1roCoRHH/E1x9P44pXzgtv2wsMeP+2un4Bnck4Nkv/46Xvy/BSKiY90ll3BKA==
   dependencies:
-    google-protobuf "^3.17.3"
-    long "^4.0.0"
-    protobufjs "~6.11.2"
-
-"@terra-money/terra.js@^3.1.7":
-  version "3.1.7"
-  resolved "https://registry.yarnpkg.com/@terra-money/terra.js/-/terra.js-3.1.7.tgz#76fcb655ca106ff683beb05d6ce305f5d05de7d4"
-  integrity sha512-z7NwVI1gh0846pgQJaPHya6SRKLd/dHWR5UwWG6T2Pf24I2EjCo8YY5Fay30pCvHTYA2NBFgnWfXEZ/31TfB1Q==
-  dependencies:
-    "@terra-money/legacy.proto" "npm:@terra-money/terra.proto@^0.1.7"
+    "@classic-terra/terra.proto" "^1.1.0"
     "@terra-money/terra.proto" "^2.1.0"
     axios "^0.27.2"
     bech32 "^2.0.0"
